@@ -1,0 +1,462 @@
+** 	= Amit még csak érintőlegesen vettünk / foglalkozni fogunk még vele
+***	= Amit még egyáltalán nem vettünk 
+** * = Amikből az eddig tanultak alapján házi feladatok lesznek.
+	Ezeket 3- vagy 5-ösével fogom kiadni az alapján, hogy mit használtunk már eddig.
+	Ezt mindig feladatban fogják látni, illetve egyesével meg fogom nevezni, hogy melyikeket kérem, hogy írjanak le.
+	Aztán majd beírom ide amit hallani akartam, aztán közösen megnézzük, hogy érthető-e.
+	Házi feladatnak annyi 'tétje' van, hogy kell lennie feltöltött doksinak a kiírt feladat alatt.
+	Nem baj ha nem találtuk el pontosan, hogy mit akartam volna oda.
+	Csak én fogom látni és nem fogjuk név szerint átcsócsálni, ha valami félre lett értve korábban.
+	Az a lényeg, hogy gondolkodjunk és megfogalmazzuk, hogy mi mire való.
+	Illetve kiderüljön, ha nem értünk egészen valamit.
+	Majd pedig a legvégén legyen egy kész leírásunk minden parancshoz, ne csak az órai anyagok és a w3schools legyen forrásnak.
+
+
+# # Új jelölés # #
+Általános szintaxist közös megegyezésünkre vezessünk be:
+<>: Kötelező elem
+[]: Elhagyható / opcionális elem
+(): Ezzel bővíthető
+
+HA valóban kell ezek közül valami a parancshoz, akkor majd jelöljük kiemelve
+**-gal fogjuk jelölni azokat a 'jeleinket', amelyeket úgy is kell használni
+
+IN (**<lehetséges elem>, <vagy másik lehetséges elem>, <vagy másik lehetséges elem> (, <egyéb lehetséges elem> ...) )**
+
+Itt látszik, hogy a belső, sima () az a bővíthetőség, a külső (** és )** ami a kötelező a parancshoz
+
+
+
+
+Adatbázis- és táblaműveletek	**
+##################################################
+
+CREATE (TABLE vagy DATABASE)	** *
+ALTER	** *
+DROP	** *
+Mi az, hogy index?	** *
+
+
+
+
+Mező- és Tábla szintű záradékok:	**
+
+
+PRIMARY KEY:	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+NULL:	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+NOT NULL:	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+UNIQUE	***
+REFERENCES	***
+("stb.." folyt. köv.)
+Én még hozzá tennék a követelményeken felül hasznos, vagy más DB kezelők esetén hasznos függvényeket, elveket
+
+
+AUTO_INFREMENT:	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+
+
+Adattípusok:	**
+INT() / INTEGER() -- Egész szám. 
+	Előjelesen -2.147.483.648-tól 2.147.483.647-ig, Előjel nélkül 0-4.294.967.295-ig tárol számot. A hossz érték, amit a zárójelbe írunk a Megjeleníthető számjegyek darabszámát határozza meg, ami alapértelmezetten a maximális 255
+
+
+TINYINT() -- Kisebb hosszúságú INT
+	A jobb tárolás érdekében: Előjelesen -128-tól 127-ig, Előjel nélkül 0-255-ig tárolhat számot.
+
+
+FLOAT() -- Lebegőpontos tört
+
+
+BIT() -- bit-érték típus: 1-64 hosszú bitsor lehet.
+
+
+CHAR() -- FIX hosszú karaktersor. Lehet 0-255 hossz között. Alapértelmezetten 1 hosszú.
+
+
+VARCHAR() -- Változó hosszúságú karaktersor (tehát nem kell pl 50 karakter hosszúnak lennie). 0-65535 hosszú lehet.
+
+
+TEXT() -- varchar, csak a lehetséges hossza bájtokban megadva maximum 65.535 bájt
+
+
+BOOL / BOOLEAN -- Igat- hamis értéket tároló változó. MySQL-ben egy BIT-en van tárolva: 0 ha hamis, 1 ha igaz
+
+
+date ** *
+
+
+
+
+Rekordműveletek (sorok / bejegyzések)	**
+##################################################
+
+INSERT (INTO):	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+UPDATE:	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+DELETE:	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+Lekérdezésműveletek és funkciók:	**
+##################################################
+
+SELECT:
+	Leírás: Ezzel jelöljük ki mit akarunk lekérdezni, tudni.
+		Gyakorlatilag a kiértékelés és kiírás.
+
+	Szintaxis / alkalmazás: 
+		A SELECT parancs után írom, amit ki akarok iratni / le akarok kérni; 
+		Ha több dolgot is akarok, azokat vesszővel elválasztva tudom felsorolni itt
+
+	Példák: SELECT * FROM tábla
+		SELECT oszlopfej AS "Autó márka" FROM auto_tabla
+		SELECT név, kor, kor >= 18 FROM vasarlok
+		SELECT 1+2
+		SELECT SUBSTR("ABC",1,2)
+	
+	
+DISTINCT:	***
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+	
+
+FROM:
+	Leírás: Megmondja, hogy melyik tábla soraiban keressük az eredményünket;
+		Ha van egy select utasításunk, akkor a FROM-nál adott táblánk minden sorára le fogja azt futtatni.
+
+	Szintaxis / alkalmazás: A FROM után írjuk a vizsgálni kívánt táblá(ka)t. (Ha több is van, akkor vesszővel elválasztva)
+
+	Példa:	SELECT orszag FROM orszagok
+		SELECT * FROM orszagok, vasarlok **
+
+
+* :
+	Leírás: Helyettesítőkarakter. Azt jelenti, hogy minden érték.
+		NEM KEVERENDŐ a wildcard karakterekkel, amit a LIKE esetén alkalmazunk
+	
+	Szintaxis / alkalmazás: Ahol több elemet is el akarunk fogadni, oda *-ot írunk
+
+	Példa:
+		SELECT * FROM tábla -> Minden oszlopot kiír a 'tábla' nevű táblából
+		SELECT város, COUNT(*) FROM vásárlók GROUP BY város 
+
+
+
+
+<, >, =, <=, >=, != vagy <> - Összehasonlító operátorok / relációs jelek.
+"nem egyenlőséget" ellenőrző összehasonlító operátorok: != és <>
+
+
+WHERE:
+	Leírás: Feltételt határoz meg. Magyarra fordítva: hol / ahol
+		Azok a sorok AHOL a feltétel teljesül 
+
+	Szintaxis / alkalmazás: Egy lekérés után fűzve, de csoportosítást és / vagy sorba rendezést végző parancsok előttre írható;
+				A WHERE után egy feltételt kell írnunk, ami vagy igaz vagy hamis értékkel kell hogy visszatérjen kiértékelés után.
+
+	Példa:
+		SELECT orszag FROM orszagok WHERE orszag LIKE "a%"
+		SELECT orszag FROM orszagok WHERE 1 = 1 -- -> Ez mindig igaz lesz, szóval minden sor országát ki fogja írni. Nincs sok értelme, de szemléletes
+		SELECT orszag FROM orszagok WHERE 1 = 2 -- -> Ez sosem lesz igaz, tehát semmit sem fog kiírni az oszlopfejeken kívül
+
+
+NOT:
+	Leírás: Feltétel tagadás. Igaz / Hamis az "eredménye". 
+		Megnézi, hogy az őt követő feltétel tényleg hamis-e.
+		Ha az őt követő feltétel tényleg hamis, akkor mondja nekünk, hogy tényleg hamis az az állítás, tehát igazat ad vissza.
+		Ha az őt követő feltétel igaz, akkor pedig hamisat ad vissza.
+
+	Szintaxis / alkalmazás: NOT valami > valami_más
+				NOT után írjuk azt a feltételt, aminek az Igaz / Hamis értékét kiértékelés után meg akarjuk fordítani.
+
+	Példa:	SELECT nepesseg, nep_fovaros, orszag FROM orszagok WHERE NOT nepesseg > nep_fovaros
+			-- A feltétel: nepesseg > nep_fovaros -> ahol a népesség nagyobb, mint a főváros népessége. Ezt most tagadjuk
+			-- Ez azt fogja kiírni, ahol a főváros népessége NEM nagyobb, mint az ország népessége.
+			-- Értsék: Városállamok
+
+
+LIMIT:
+	Leírás:	Limitálja, hogy hány sort fogunk kiírni. Független minden feltételtől. Adunk neki egy számot és annyi sor lesz legfeljebb kiírva a végén.
+
+	Szintaxis / alkalmazás:
+		LIMIT 5
+		A lekérdezés végére írva a LIMIT parancs után írunk egy egész számot.
+
+	Példa:	SELECT orszag, nepesseg FROM orszagok ORDER BY nepesseg DESC LIMIT 5 
+			-- Limitálja a kiírt sorok számát legfeljebb 5-re. Kiírjuk az országainkat népesség szerint csökkenő sorrendben, majd végül csak az első 5-öt írjuk ki
+
+
+LIKE:
+	Leírás: "Olyan mint". Feltételt határoz meg. Összehasonlítja, hogy az adott oszlop tartalma megegyezik-e az adott szövegünkkel vagy illeszkedik-e az adott mintára.
+			Tartozik hozzá több 'wildcard' karakter is, amelyek helyettesítőkarakterként szolgálnak. 
+
+	Szintaxis / alkalmazás: oszlop LIKE "valami"
+
+	Példa: 
+			SELECT orszag, nepesseg FROM orszagok WHERE orszag LIKE "Magyarország"
+			-- Kiírja azoknak a soroknak az országnevét és népességét, ahol az ország oszlop tartalma "Magyarország"
+			SELECT név FROM vasarlok WHERE név LIKE "Sanyi"
+			-- Kiírja azokban a sorokban szereplő neveket, ahol ez megegyezik a "Sanyi" névvel
+
+
+	Wildcards (LIKE "_%"):
+		Leírás: LIKE-specifikus helyettesítőkarakterek. Csak LIKE parancs szövegeinél alkalmazhatóak. 
+				MySQL-ben "_" és "%" az elérhető wildcard karaktereink
+				_ :	Meghatározza, hogy a szövegben EGY adott helyen, egy karakter helyén most állhat BÁRMILYEN karakter.
+				% :	Meghatározza, hogy a szövegben itt AKÁRMENNYI és BÁRMILYEN karakter állhat ennek a helyén.	
+
+		Szintaxis / alkalmazás:
+				_ :	LIKE "A_"
+					-- Kiírja azokat a bejegyzéseinket, amelyek KÉT BETŰBŐL ÁLLNAK és az ELSŐ betűjük 'A'
+					LIKE "_A_"
+					-- Kiírja azokat a bejegyzéseinket, amelyek HÁROM BETŰBŐL ÁLLNAK és a MÁSODIK betűjük 'A'
+					LIKE "_A"
+					-- Kiírja azokat a bejegyzéseinket, amelyek KÉT BETŰBŐL ÁLLNAK és a MÁSODIK betűjük 'A'
+					LIKE "____A_"
+					-- Kiírja azokat a bejegyzéseinket, amelyek HAT BETŰBŐL ÁLLNAK és az ÖTÖDIK betűjük 'A'
+					
+				% : LIKE "A%"
+					-- Kiírja az 'A' kezdetű szövegeinket
+					LIKE "%A%"
+					-- Kiírja azokat a bejegyzéseinket, amelyek bárhol tartalmaznak legalább egy 'A' betűt
+					LIKE "%A"
+					-- Kiírja azokat a bejegyzéseinket, amelyek utolsó betűje 'A'
+					
+				Kombinált példa:
+					LIKE "_a%"
+					-- Tömören: Bármely szöveg, amely második karaktere 'a'.
+					-- Az első karakter lehet bármi. Itt fix, hogy csak egy karakterről beszélünk.
+					-- Viszont a második karakternek feltétlenül 'a'-nak kell lennie. 
+					-- Innentől viszont bármilyen karakterből és bármennyi következhet.
+					-- A '%' az tömören egy meghatározatlan hosszúságú '_' sor,
+
+		Példa:	SELECT név FROM vasarlok WHERE név LIKE "s%"
+				-- Vissza fog adni például: 'Sanyi', 'Szandi', 'Szabolcs', 'Szabi', 'Szófia', 'Szofi'
+				SELECT név FROM vasarlok WHERE név LIKE "s____"
+				-- Vissza fog adni például: 'Sanyi', 'Szabi', 'Szofi'
+
+
+ORDER BY x ASC / DESC:
+	Leírás:	Sorba rendezi sorainkat egy vagy több oszlopunk tartalma alapján.
+			Ha parancsunkat ASC-cal zárjuk, akkor növekvő-
+			Ha DESC-cel zárjuk, akkor csökkenő sorba teszi sorainkat
+			Betűk esetén ABC sorrendről beszélünk.
+
+	Szintaxis / alkalmazás: ORDER BY oszlop ASC
+							ORDER BY oszlop DESC
+
+	Példa:	SELECT név FROM vasarlok ORDER BY név DESC
+			-- Név szerint "csökkenő" sorba teszi az értékeinket, tehát fordított ABC sorrendbe
+
+IN (x, y, z):	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+BETWEEN x AND y:	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+IS NULL	**
+IS NOT NULL	**
+
+
+AND:	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+OR:	** *
+	Leírás:	Magyarra fordítva: "vagy"
+			Két feltétel közé írható. Ha a két feltétel egyike legalább igaz, akkor "igaz" értéket ad vissza.
+			Tehát ha valami feltételt vizsgál, mint például a WHERE akkor ott tudunk több feltételt is összekötni vele, és ha legalább az egyik teljesül a kettőből egy sorra, akkor bele veszi a kiírásunkba
+			Ez egy úgynevezett "logikai kapu" művelet.
+
+	Szintaxis / alkalmazás: feltétel OR feltétel
+							WHERE egyik feltétel OR másik feltétel
+							WHERE név LIKE "a%" OR név LIKE "b%"
+	Példa:	SELECT név FROM vasarlok WHERE név LIKE "a%" OR név LIKE "b%"
+			-- Kiírja azokat a vásárlóinkat, amelyek neve 'a' betűvel vagy 'b' betűvel kezdődik
+
+
+AS: 
+	Lekérdezés a lekérdezésben
+	"Számított mezők" fogalma (mint penznem = "euró" pl.: SELECT orszag, penznem, penznem = "euró" (...))
+	Aliasz - AS ("oszlopnév" vs valtozo)	**
+
+
+Komment írása: -- Után írt szöveg nem fut le, de megmarad
+
+
+; -- Több parancs elválasztása	**
+
+
+
+
+Aggregációs műveletek:
+
+GROUP BY:	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+	HAVING:	** *
+		Leírás:
+
+		Szintaxis / alkalmazás:
+
+		Példa:
+
+
+COUNT():	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+MIN()	** *
+MAX()	** *
+SUM()	** *
+AVG()	** *
+
+Egyéb lekérdezés függvények:	**
+CONCAT()	***
+FORMAT()	***
+
+
+LENGTH():	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+SUBSTR():	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+REPLACE()	***
+TRUNC()		***
+ROUND()		***
+("stb.." folyt. köv.)
+Én még hozzá tennék a követelményeken felül hasznos, vagy más DB kezelők esetén hasznos függvényeket, elveket	***
+pl.:
+LOWER() / UPPER() vagy UCASE() -- Kis- / Nagybetűsen kezelni egy értéket	***
+CEILING() / FLOOR() -- A legközelebbi egész érték felülről / lentről 		***
+MOD() -- Moduló osztás: maradékos osztás maradéka	***
+
+
+Táblák összekapcsolása (JOIN):	** *
+INNER JOIN	
+LEFT JOIN	
+RIGHT JOIN	
+CROSS JOIN
+
+
+Elmélet:
+Mentés és helyreállítás
+Adatbázis-tervezés fogalmai
+ER-Modell: Entity Relation- / Egyed Kapcsolat Modell	! Ez lesz a fontos rész
+Redundancia (ismétlődés) szerepe, előnyök / hátrányok
+Relációs adatbázisok jellemzői
+	Elsődlekes / Idegen Kulcs fogalma
+	Rekord
+	Mező
+	Kapcsolattípusok
+	"stb.."
+	
+	
+Egyéb, ami érdekes lehet, de csak plusz idő és érdeklődés esetén mutatom meg, mert 'nem kell':
+
+
+INSERT INTO tábla SELECT...	***
+
+Be tudjuk egy SELECT tartalmát tölteni egy teljesen másik táblába
+	
+
+CASE: ***
+CASE
+	WHEN feltétel THEN eredmény
+	WHEN másik feltétel THEN másik eredmény
+	ELSE még másik eredmény, ha a fentiek egyike sem teljesült
+END AS "Oszlopfejléc, amiben az Eldöntés eredménye van"
+FROM tábla
+
+Tudunk feltétel szerint eltérő dolgokat kiírni, pl:
+
+SELECT keresztnev, 
+kor, 
+CASE
+	WHEN kor >= 18 THEN "Bemehet a dohányboltba"
+	ELSE "Nem mehet be a dohányboltba"
+END AS "Bemehet a dohányboltba?"
+FROM `suli_gyakorlo`.`vasarlok`
+pl az IN parancsnál
