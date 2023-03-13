@@ -1,7 +1,7 @@
 ---
 name: Van egy javaslatom!
 about: Kitaláltam valamit, ami jó lenne ha lenne!
-title: 'Cím?'
+title: Cím?
 labels: ''
 assignees: ''
 

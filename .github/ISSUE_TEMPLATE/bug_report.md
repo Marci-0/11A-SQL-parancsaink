@@ -1,7 +1,7 @@
 ---
 name: Hibát találtam!
 about: Hibát találtam az X-edik sorban
-title: 'Cím?'
+title: Cím?
 labels: ''
 assignees: ''
 
