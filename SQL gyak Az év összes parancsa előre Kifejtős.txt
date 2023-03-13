@@ -15,15 +15,19 @@
 # # Új jelölés # #
 Általános szintaxist közös megegyezésünkre vezessünk be:
 <>: Kötelező elem
-[]: Elhagyható / opcionális elem
-(): Ezzel bővíthető
+[]: Elhagyható / opcionális elem, ami vagy van, vagy nincs
+(): Bővíthető / Ismétlődő szakasz, pl felsorolás, vagy több feltétel megadása
 
-HA valóban kell ezek közül valami a parancshoz, akkor majd jelöljük kiemelve
-**-gal fogjuk jelölni azokat a 'jeleinket', amelyeket úgy is kell használni
+HA valóban kell ezek közül valami a parancshoz, akkor majd KÜLÖN SZÓLOK, illetve utána jelölöm, ami kötelező a parancshoz!
+**-gal fogjuk jelölni azokat a 'jeleinket', amelyeket úgy is kell használni feltétlen a parancshoz 
+
+Példa:
 
 IN (**<lehetséges elem>, <vagy másik lehetséges elem>, <vagy másik lehetséges elem> (, <egyéb lehetséges elem> ...) )**
 
-Itt látszik, hogy a belső, sima () az a bővíthetőség, a külső (** és )** ami a kötelező a parancshoz
+Itt látszik, hogy a belső, sima () az a bővíthető rész, mert annyit teszünk a felsorolásba, amennyit akarunk;
+
+A külső (** és )** pedig az, ami a kötelező a parancshoz
 
 
 
@@ -31,9 +35,9 @@ Itt látszik, hogy a belső, sima () az a bővíthetőség, a külső (** és )*
 Adatbázis- és táblaműveletek	**
 ##################################################
 
-CREATE (TABLE vagy DATABASE)	** *
-ALTER	** *
-DROP	** *
+CREATE	(TABLE vagy DATABASE)	** *
+ALTER	(TABLE vagy DATABASE)	** *
+DROP	(TABLE vagy DATABASE)	** *
 Mi az, hogy index?	** *
 
 
@@ -118,19 +122,43 @@ Rekordműveletek (sorok / bejegyzések)	**
 ##################################################
 
 INSERT (INTO):	** *
-	Leírás:
-
-	Szintaxis / alkalmazás:
-
-	Példa:
-
+	Leírás:	Beillesztünk új adatokat, egy új sort a táblázatunkba
+	
+							Itt a kötezelő ()-eket így jelölöm: (** és )**
+	Szintaxis / alkalmazás:	INSERT INTO <tábla> 
+							(** <első oszlop neve>, <második oszlop neve>, (<stb oszlopok neve>,) **)
+							VALUES
+							(** <első oszlopba szánt adatom>, <második oszlopba szánt adatom>, (<sokadik oszlopba szánt adatom>,) **)
+							
+							Az oszlopneveket úgy adom meg ahogy akarom, viszont utána passzolnia kell hozzá az oda szánt értékek felsorolásának is a sorrendje. PL.:
+							INSERT INTO <tábla> 
+							(** <ötödik oszlop neve>, <második oszlop neve>, (<x-edik oszlopok neve>,) **)
+							VALUES
+							(** <ötödik oszlopba szánt adatom>, <második oszlopba szánt adatom>, (<x-edik oszlopba szánt adatom>,) **)
+							
+							Vagy, ha minden sorba illesztek be értéket, akkor nem kell az oszlopneveket felsorolni:
+							INSERT INTO <tábla>
+							VALUES
+							(** <első oszlopba szánt adatom>, <második oszlopba szánt adatom>, (<sokadik oszlopba szánt adatom>,) **)
+							
+	Példa:	INSERT INTO `rendelések`
+			(MegrendelőID, Termék, Dátum)
+			VALUES
+			(8, "Fapapucs", "1992.05.06" )
+			
 
 UPDATE:	** *
-	Leírás:
+	Leírás:	Egy már a táblázatban létező adatot tudunk ezzel átírni vagy kijavítani, 'frissíteni'
 
-	Szintaxis / alkalmazás:
+	Szintaxis / alkalmazás: UPDATE <tábla> 
+							SET <a változtatni kívánt adat oszlopának neve> = <az érték, amire át akarjuk írni>
+							[WHERE <feltétel(ek), hogy melyik sorokban akarjuk ezt a változást. Ha nincs, akkor mindenhol felül írja>]
 
-	Példa:
+	Példa:	UPDATE `rendelések` SET `MegrendelőID` = 8 WHERE `MegrendelőID` = 666
+			Ahol eredetileg 666 volt a MegrendelőID, ott a parancs után 8 lesz beírva
+			UPDATE `rendelések` SET `Termék` = "Nincs"
+			Minden rendeléshez azt írja be a rendelt termékhez, hogy "Nincs"
+			
 
 
 DELETE:	** *
@@ -151,6 +179,12 @@ SELECT:
 	Szintaxis / alkalmazás: 
 		A SELECT parancs után írom, amit ki akarok iratni / le akarok kérni; 
 		Ha több dolgot is akarok, azokat vesszővel elválasztva tudom felsorolni itt
+		
+		Házinak fogom adni pár alkalommal a korábbi leírások átdolgozását, hogy lássam, hogy értik hogy működik az új jelölés!
+		
+		SELECT <akármilyen érték, vagy művelet. szó szerint akármi.>;
+		SELECT <oszlopnév> ( , <másik oszlopnév> stb... ) FROM <tábla> [bármi egyéb parancs, pl sorba tétel vagy feltétellel szűrés, vagy AS paranccsal 'átnevezés' stb...];
+		
 
 	Példák: SELECT * FROM tábla
 		SELECT oszlopfej AS "Autó márka" FROM auto_tabla
@@ -159,7 +193,7 @@ SELECT:
 		SELECT SUBSTR("ABC",1,2)
 	
 	
-DISTINCT:	***
+DISTINCT:	** *
 	Leírás:
 
 	Szintaxis / alkalmazás:
@@ -168,7 +202,7 @@ DISTINCT:	***
 
 	
 
-FROM:
+FROM:	** *
 	Leírás: Megmondja, hogy melyik tábla soraiban keressük az eredményünket;
 		Ha van egy select utasításunk, akkor a FROM-nál adott táblánk minden sorára le fogja azt futtatni.
 
@@ -195,7 +229,7 @@ FROM:
 "nem egyenlőséget" ellenőrző összehasonlító operátorok: != és <>
 
 
-WHERE:
+WHERE:	** *
 	Leírás: Feltételt határoz meg. Magyarra fordítva: hol / ahol
 		Azok a sorok AHOL a feltétel teljesül 
 
@@ -208,7 +242,7 @@ WHERE:
 		SELECT orszag FROM orszagok WHERE 1 = 2 -- -> Ez sosem lesz igaz, tehát semmit sem fog kiírni az oszlopfejeken kívül
 
 
-NOT:
+NOT:	** *
 	Leírás: Feltétel tagadás. Igaz / Hamis az "eredménye". 
 		Megnézi, hogy az őt követő feltétel tényleg hamis-e.
 		Ha az őt követő feltétel tényleg hamis, akkor mondja nekünk, hogy tényleg hamis az az állítás, tehát igazat ad vissza.
@@ -223,7 +257,7 @@ NOT:
 			-- Értsék: Városállamok
 
 
-LIMIT:
+LIMIT:	** *
 	Leírás:	Limitálja, hogy hány sort fogunk kiírni. Független minden feltételtől. Adunk neki egy számot és annyi sor lesz legfeljebb kiírva a végén.
 
 	Szintaxis / alkalmazás:
@@ -234,7 +268,7 @@ LIMIT:
 			-- Limitálja a kiírt sorok számát legfeljebb 5-re. Kiírjuk az országainkat népesség szerint csökkenő sorrendben, majd végül csak az első 5-öt írjuk ki
 
 
-LIKE:
+LIKE:	** *
 	Leírás: "Olyan mint". Feltételt határoz meg. Összehasonlítja, hogy az adott oszlop tartalma megegyezik-e az adott szövegünkkel vagy illeszkedik-e az adott mintára.
 			Tartozik hozzá több 'wildcard' karakter is, amelyek helyettesítőkarakterként szolgálnak. 
 
@@ -290,18 +324,21 @@ ORDER BY x ASC / DESC:
 			Ha DESC-cel zárjuk, akkor csökkenő sorba teszi sorainkat
 			Betűk esetén ABC sorrendről beszélünk.
 
-	Szintaxis / alkalmazás: ORDER BY oszlop ASC
-							ORDER BY oszlop DESC
+	Szintaxis / alkalmazás: ORDER BY <oszlop> ASC
+							ORDER BY <oszlop> DESC
+							ODRED BY <oszlop> ( , <másik oszlop, másodlagos sorba rendezési szempontnak>, <harmadik oszlop..>) ASC
 
 	Példa:	SELECT név FROM vasarlok ORDER BY név DESC
 			-- Név szerint "csökkenő" sorba teszi az értékeinket, tehát fordított ABC sorrendbe
 
 IN (x, y, z):	** *
-	Leírás:
+	Leírás:	Olyan mint a LIKE, viszont ez egy listában nézi, hogy benne van-e a vizsgált érték a felsorolásunkban
+							Itt kötelező ()-ek közé tenni, vesszővel elválasztani a felsorolt értékeinket. 
+							A kötelező ()-eket jelölöm: (** és )**
+	Szintaxis / alkalmazás:	<vizsgált érték> IN (** <egyik opció> ( , <másik opció>, <harmadik opció stb..>) )**
 
-	Szintaxis / alkalmazás:
-
-	Példa:
+	Példa:	SELECT név, város FROM vasarlok WHERE város IN ("Kecskemét", "Kiskőrös", "Kecel")
+			Kiírja azoknak a nevét és városát, akik vagy Kecskeméten, Kőrösön vagy Kecelen laknak
 
 
 BETWEEN x AND y:	** *
@@ -317,29 +354,32 @@ IS NOT NULL	**
 
 
 AND:	** *
-	Leírás:
+	Leírás: Két feltételt köt össze. Ha mind a kettő feltétel igaz, csak akkor ad vissza 'igaz' értéket.
+			Többször is használhatjuk egy lekérésben. Az OR-nak, AND-nak és a hasonló vizsgáló parancsoknak van egy 'prioritás' sorrendje, mint matekban a +-nak, *-nak, :-nak stb. Ezt könnyebb kikeresni, majd úgyis  megragad, ameddig kell, aztán kikeressük vagy zárójelezéssel kierőltetjük a sorrendet, ahogy az nekünk kell.
+			Ez egy úgynevezett "logikai kapu" művelet.
 
-	Szintaxis / alkalmazás:
+	Szintaxis / alkalmazás: <egyik feltétel> AND <másik feltétel>;
 
-	Példa:
+	Példa:	SELECT név FROM vasarlok WHERE név LIKE "a%" AND név LIKE "%a"
+			Ez csak azokat a neveket írja ki, ami a-val kezdődik és a-val is fejeződik be, mint pl Alma, Anita, Amanda stb..
 
 
 OR:	** *
 	Leírás:	Magyarra fordítva: "vagy"
 			Két feltétel közé írható. Ha a két feltétel egyike legalább igaz, akkor "igaz" értéket ad vissza.
 			Tehát ha valami feltételt vizsgál, mint például a WHERE akkor ott tudunk több feltételt is összekötni vele, és ha legalább az egyik teljesül a kettőből egy sorra, akkor bele veszi a kiírásunkba
-			Ez egy úgynevezett "logikai kapu" művelet.
+			Ez is egy úgynevezett "logikai kapu" művelet.
 
-	Szintaxis / alkalmazás: feltétel OR feltétel
-							WHERE egyik feltétel OR másik feltétel
+	Szintaxis / alkalmazás: <egyik feltétel> OR <másik feltétel>
+							WHERE <egyik feltétel> OR <másik feltétel>
 							WHERE név LIKE "a%" OR név LIKE "b%"
 	Példa:	SELECT név FROM vasarlok WHERE név LIKE "a%" OR név LIKE "b%"
 			-- Kiírja azokat a vásárlóinkat, amelyek neve 'a' betűvel vagy 'b' betűvel kezdődik
 
 
-AS: 
+AS:	** *
 	Lekérdezés a lekérdezésben
-	"Számított mezők" fogalma (mint penznem = "euró" pl.: SELECT orszag, penznem, penznem = "euró" (...))
+	"Számított mezők" fogalma (mint penznem = "euró" pl.: SELECT orszag, penznem, penznem = "euró" AS "euró?" (...))
 	Aliasz - AS ("oszlopnév" vs valtozo)	**
 
 
