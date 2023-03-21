@@ -342,11 +342,15 @@ IN (x, y, z):	** *
 
 
 BETWEEN x AND y:	** *
-	Leírás:
+	Leírás: Igaz vagy hamis értéket ad vissza. Idegen szóval 'Boolean'-t
+		Megnézi, hogy a vizsgált érték az x és y között van-e. Legyen x és y akár szám, akár betű. 
+		Betűk esetén ABC sorrendre alapoz.
 
-	Szintaxis / alkalmazás:
+	Szintaxis / alkalmazás:	<vizsgált elem> BETWEEN <kezdő érték> AND <végérték>
 
-	Példa:
+	Példa:	SELECT kor, név FROM <tábla> WHERE kor BETWEEN 18 AND 65
+		Kiírja azoka a sorokat, ahol az ügyfelek kora 18 és 65 között van.
+		Ebbe a halmazba a 18 és a 65 is bele esik.
 
 
 IS NULL	**
@@ -381,7 +385,28 @@ AS:	** *
 	Lekérdezés a lekérdezésben
 	"Számított mezők" fogalma (mint penznem = "euró" pl.: SELECT orszag, penznem, penznem = "euró" AS "euró?" (...))
 	Aliasz - AS ("oszlopnév" vs valtozo)	**
+	
+	"Hivatalosabban":
+	Leírás: Átnevezhetem ezzel egy oszlopomat.
+		Ha ""-be teszem az új nevet, akkor ez feltétlen kozmetikai
+		Ha nem, akkor ez innentől mint változó érték kezelhető a lekérésemben.
 
+	Szintaxis / alkalmazás: <elem> AS <elem új neve>
+				<elem> AS "<elem új neve>"
+
+	Példa:	SELECT név, kor, kor < 18 AS "kiskorú?" FROM <tábla>
+		Itt csináltunk egy harmadik oszlopot egy művelettel (kor < 18), aminek a kiírás erejére a fejlécére a "kiskorú?" szöveget írjuk ki
+		
+		SELECT R.`MegrendelőID` FROM `Rendelések` AS R
+		Ez már komplikáltabb, úgyhogy haladjunk lépésről lépésre.
+		Nem olvasási sorrendet követ a kiértékelés. Amikor valami műveletünk van, az előnyt élvez és előbb lesz rendezve mint a többi
+		Mint pl. amikor azt írom hogy 1+5, vagy ahogy fent volt a kor < 18
+		Az "AS" parancs is ilyen ezesetben
+		Szóval előbb észre veszi, hogy a `Rendelések` táblára másként akarunk majd innentől hivatkozni.
+		Figyeljük meg, hogy itt NINCS idézőjelbe téve az új név!
+		Innentől az R azt fogja jelenteni, hogy `Rendelések` tábla
+		Na ez után lesz feldolgozva a lekérés egészben, mostmár olvasási sorrendben:
+		Kiírjuk a `Rendelések` tábla minden sorának `MegrendelőID` oszlopának tartalmát, Semmi több
 
 Komment írása: -- Után írt szöveg nem fut le, de megmarad
 
@@ -394,11 +419,24 @@ Komment írása: -- Után írt szöveg nem fut le, de megmarad
 Aggregációs műveletek:
 
 GROUP BY:	** *
-	Leírás:
+	Leírás:	Magyarul: Csoportosítás valami által.
+		Egy adott feltétel, érték vagy oszlop alapján csoportokra fogja szedni a táblánk sorait
+		Ez egy úgynevezett "aggregációs", azaz "összevonó" művelet
+		Más aggregációs műveletek együtt tudnak működni ezzel a paranccsal, és kezelik ezeket a szétszedett csoportokat
+		Általában a lekérésünk vége felé írhatjuk csak. 
+		SELECT, FROM, WHERE elé nem szabad!
+		Viszont utána jön az ORDER BY, illetve a LIMIT és hasonló formázó műveletek parancsa, amelyeknek a lekérés végén kell lennie
 
-	Szintaxis / alkalmazás:
+	Szintaxis / alkalmazás: GROUP BY <ami által csoportosítok> ( , <ami által másodlagosan csoportosítok>, <ami által harmadlakosan ...>)
 
-	Példa:
+	Példa: 	SELECT nem, COUNT(*) FROM <tábla> GROUP BY nem
+		Összeszámolja, hogy nemenként hány ügyfelünk van a táblában, pl 20 férfi, 15 nő
+		SELECT város, COUNT(*) FROM <tábla> GROUP BY város
+		u. a.
+		SELECT megye, város, COUNT(*) FROM <tábla> GROUP BY megye
+		u. a., ITT a város csak tengődik, oktalan és nem csinál semmit!
+		SELECT megye, város, COUNT(*) FROM <tábla> GROUP BY megye, város
+		Na ITT pedig már rendesen szétszedi először megyékre, aztán városokra a létszámainkat!
 
 
 	HAVING:	** *
