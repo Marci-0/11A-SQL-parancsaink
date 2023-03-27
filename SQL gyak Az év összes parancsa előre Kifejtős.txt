@@ -439,13 +439,16 @@ GROUP BY:	** *
 		Na ITT pedig már rendesen szétszedi először megyékre, aztán városokra a létszámainkat!
 
 
-	HAVING:	** *
-		Leírás:
+	HAVING:
+		Leírás:	A GROUP BY "tartozéka". Az olyan műveleteknél, mint a COUNT(), AVG(), MIN(), MAX() stb esetén NEM HASZNÁLHATÓ a WHERE mivel ezek aggregációs műveletek! Ez gyakorlatilag 'azt helyettesíti' ezeknél a műveleteknél.
+			WHERE attól még használható a lekérdezésben, viszont az nem eszi meg az ilyeneket, mint a COUNT(*) > 3
 
-		Szintaxis / alkalmazás:
+		Szintaxis / alkalmazás: GROUP BY <csoportosítások> HAVING <feltételek, mint a WHERE esetén>
 
-		Példa:
-
+		Példa:	SELECT megye, város, COUNT(*) FROM <tábla> GROUP BY megye, város HAVING COUNT(*) > 5
+			Ez a lekérdezés csak azokat a városokat fogja kiírni megyénként, ahol 5-nél több ügyfelünk van legalább
+			SELECT megye, város, COUNT(*) FROM <tábla> GROUP BY megye, város HAVING COUNT(*) > 5 WHERE város LIKE "k%"
+			Ez a lekérdezés csak azokat a városokat fogja kiírni megyénként, ahol 5-nél több ügyfelünk van legalább ÉS A WHERE kiszűri, hogy csak azokat a városokat írjuk majd ki, amik "k" betűvel kezdődnek!
 
 COUNT():	** *
 	Leírás:
@@ -459,6 +462,7 @@ MIN()	** *
 MAX()	** *
 SUM()	** *
 AVG()	** *
+
 
 Egyéb lekérdezés függvények:	**
 CONCAT()	***
@@ -493,10 +497,36 @@ MOD() -- Moduló osztás: maradékos osztás maradéka	***
 
 
 Táblák összekapcsolása (JOIN):	** *
-INNER JOIN	
-LEFT JOIN	
-RIGHT JOIN	
-CROSS JOIN
+INNER JOIN	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+LEFT JOIN	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+RIGHT JOIN	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
+
+
+CROSS JOIN	** *
+	Leírás:
+
+	Szintaxis / alkalmazás:
+
+	Példa:
 
 
 Elmélet:
@@ -512,29 +542,30 @@ Relációs adatbázisok jellemzői
 	"stb.."
 	
 	
-Egyéb, ami érdekes lehet, de csak plusz idő és érdeklődés esetén mutatom meg, mert 'nem kell':
+Egyéb, ami érdekes lehet, de csak plusz idő és érdeklődés esetén mutatom meg, mert 'nem kell', de hasznos:
 
-
-INSERT INTO tábla SELECT...	***
-
+INSERT INTO <tábla> SELECT...	**
 Be tudjuk egy SELECT tartalmát tölteni egy teljesen másik táblába
-	
+
+SET @valtozo = (SELECT...);	**
+Be tudjuk egy SELECT tartalmát tölteni egy változóba FELTÉVE ha egy érték a végeredménye
+
 
 CASE: ***
 CASE
-	WHEN feltétel THEN eredmény
-	WHEN másik feltétel THEN másik eredmény
-	ELSE még másik eredmény, ha a fentiek egyike sem teljesült
-END AS "Oszlopfejléc, amiben az Eldöntés eredménye van"
-FROM tábla
+	WHEN <feltétel> THEN <eredmény>
+	WHEN <másik feltétel> THEN <másik eredmény>
+	ELSE <még másik eredmény, ha a fentiek egyike sem teljesült>
+END AS <"Oszlopfejléc, amiben az Eldöntés eredménye lesz">
+FROM <tábla>
 
 Tudunk feltétel szerint eltérő dolgokat kiírni, pl:
 
-SELECT keresztnev, 
+SELECT 
+keresztnev, 
 kor, 
 CASE
 	WHEN kor >= 18 THEN "Bemehet a dohányboltba"
 	ELSE "Nem mehet be a dohányboltba"
 END AS "Bemehet a dohányboltba?"
 FROM `suli_gyakorlo`.`vasarlok`
-pl az IN parancsnál
